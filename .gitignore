@@ -1,0 +1,63 @@
+# genel
+voyenv
+.env
+settings.py
+scripts
+migrations
+db.sqlite3
+db.sqlite3
+media/
+static/
+
+#react native
+node_modules
+npm-debug.log
+ios/Pods
+ios/build
+
+#python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
+
+*.log
+logs/
+
+
+*.egg-info/
+dist/
+build/
+
+coverage/
+*.sqlite3
+*.sqlite
+
+.env.local
+.env.*.local
