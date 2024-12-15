@@ -10,7 +10,7 @@ class CountryCriteriaInline(admin.TabularInline):
     
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    inlines = [CountryCriteriaInline]
+    list_display = ('name', 'match_percentage', 'image_url')
 
 
 admin.site.register(Criteria)

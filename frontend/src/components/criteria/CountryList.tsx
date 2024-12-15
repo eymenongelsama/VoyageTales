@@ -1,22 +1,82 @@
-import React from 'react';
+// src/components/criteria/CountryList.tsx
+
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { CountriesResponse, Country } from '../../types/country';
 import CountryCard from './CountryCard';
-import { Country } from '../../types/country';
 
-interface Props {
-  countries: Country[];
-}
+const CountryList: React.FC = () => {
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [nextPage, setNextPage] = useState<string | null>(null);
+  const [previousPage, setPreviousPage] = useState<string | null>(null);
 
-const CountryList: React.FC<Props> = ({ countries }) => {
+  const fetchCountries = async (url: string) => {
+    try {
+      setLoading(true);
+      const response = await axios.get<CountriesResponse>(url);
+      setCountries(response.data.results);
+      setNextPage(response.data.next);
+      setPreviousPage(response.data.previous);
+      setLoading(false);
+    } catch (err) {
+      setError('Veriler çekilirken bir hata oluştu.');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCountries('http://127.0.0.1:8000/api/matching-countries/');
+  }, []);
+
+  const handleNext = () => {
+    if (nextPage) {
+      fetchCountries(nextPage);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (previousPage) {
+      fetchCountries(previousPage);
+    }
+  };
+
+  if (loading) {
+    return <p>Yükleniyor...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold">Matching Countries</h3>
-        <span className="text-sm text-gray-500">{countries.length} matches found</span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Ülkeler</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {countries.map((country) => (
-          <CountryCard key={country.name} country={country} />
+          <CountryCard key={country.id} country={country} />
         ))}
+      </div>
+      <div className="flex justify-center mt-6 space-x-4">
+        <button
+          onClick={handlePrevious}
+          disabled={!previousPage}
+          className={`px-4 py-2 bg-blue-500 text-white rounded ${
+            !previousPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'
+          }`}
+        >
+          Önceki Sayfa
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={!nextPage}
+          className={`px-4 py-2 bg-blue-500 text-white rounded ${
+            !nextPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'
+          }`}
+        >
+          Sonraki Sayfa
+        </button>
       </div>
     </div>
   );

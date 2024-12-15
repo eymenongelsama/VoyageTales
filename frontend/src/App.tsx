@@ -1,3 +1,5 @@
+// src/App.tsx
+
 import React, { useState } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -6,6 +8,7 @@ import CriteriaSection from './components/criteria/CriteriaSection';
 import AuthForm from './components/auth/AuthForm';
 import { UserPreferences } from './types';
 import { NavigationStep } from './types/navigation';
+import CountryList from './components/criteria/CountryList'; // CountryList'i içe aktardık
 
 function App() {
   const [step, setStep] = useState<NavigationStep>('auth');
@@ -27,7 +30,14 @@ function App() {
           <TravelOptions onComplete={handlePreferencesComplete} />
         )}
         {step === 'criteria' && (
-          <CriteriaSection />
+          <div className="flex flex-col lg:flex-row">
+            <div className="lg:w-1/3 p-4">
+              <CriteriaSection />
+            </div>
+            <div className="lg:w-2/3 p-4">
+              <CountryList /> {/* Doğru JSX Kullanımı */}
+            </div>
+          </div>
         )}
       </main>
       <Footer />
