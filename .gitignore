@@ -8,7 +8,8 @@ db.sqlite3
 db.sqlite3
 media/
 static/
-backup_countrycriteria.sql
+db_backup.json
+management
 
 #react native
 node_modules

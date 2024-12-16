@@ -1,37 +1,40 @@
+# views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
-from main.models import Country ,CountryCriteria
-from main.serializers import CountrySerializer
+from main.models import Country, CountryCriteria
+from main.serializers import CountrySerializer, CountryListSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Prefetch
+
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10  # Varsayılan sayfa boyutu
     page_size_query_param = 'page_size'
     max_page_size = 100
 
+
 class GetMatchingCountries(generics.ListAPIView):
     """
     Tüm ülkeleri listeler ve sayfalama, filtreleme, arama özellikleri sunar.
+    Kriterler dahil edilmez.
     """
-    queryset = Country.objects.all().prefetch_related('criteria')  # İlişkili verileri önceden yükler
-    serializer_class = CountrySerializer
+    queryset = Country.objects.all()  # prefetch_related('criteria') kaldırıldı
+    serializer_class = CountryListSerializer  # Yeni serializer kullanıldı
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['name', 'match_percentage', 'overall_score']  # Filtreleme için kullanılacak alanlar
     search_fields = ['name', 'description', 'tags']  # Arama için kullanılacak alanlar
     ordering_fields = ['name', 'match_percentage', 'overall_score']  # Sıralama için kullanılacak alanlar
     ordering = ['name']  # Varsayılan sıralama
-        
-        
+
+
 class CalculateMatch(APIView):
     """
     Kullanıcının sağladığı kriterlere göre ülkelerin eşleşme yüzdesini hesaplar.
     """
-    
     def post(self, request):
         user_criteria = request.data.get('criteria')  # Beklenen format: {"1": 5, "2": 7}
         

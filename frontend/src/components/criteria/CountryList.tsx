@@ -51,9 +51,9 @@ const CountryList: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Ülkeler</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="max-w-6xl mx-auto px-4 py-8"> {/* Maksimum genişlik ve ortalama */}
+      <h1 className="text-2xl font-bold mb-6">Ülkeler</h1> {/* Başlık ekledik */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6"> {/* Mobilde 1 sütun, küçük ekranlarda 2 sütun */}
         {countries.map((country) => (
           <CountryCard key={country.id} country={country} />
         ))}

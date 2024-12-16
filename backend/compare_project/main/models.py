@@ -20,7 +20,8 @@ class Country(models.Model):
     overall_score = models.FloatField(default=0.0)  # Genel puan (1-5 arasında)
     image_url = models.ImageField(
         upload_to="countries/",
-        default="defaults/default_world_image.jpg",  # Varsayılan görsel yolu
+        default="defaults/default_world_image.jpg",
+        max_length=2048, blank=True, null=True# Varsayılan görsel yolu
     )
 
     def __str__(self):
