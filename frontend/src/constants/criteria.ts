@@ -1,27 +1,27 @@
-export const initialCriteria = [
-  'Security & Crime Rates',
-  'Cost of Living',
-  'Climate & Weather Conditions',
-  'Health Services & Quality',
-  'Accommodation Options & Cost',
-  'Transportation & Infrastructure',
-  'Visa Ease & Immigration',
-  'Education Quality',
-  'Job Opportunities',
-  'Internet Infrastructure',
-] as const;
+// src/constants/criteria.ts
+export type CriteriaType = string;
 
-export const additionalCriteria = [
-  'Language Barrier',
-  'Cultural Richness',
-  'Food Culture',
-  'Local Hospitality',
-  'Nightlife & Entertainment',
-  'Natural Beauties',
-  'Environmental Factors',
-  'Tax Policies',
-  'Religious & Cultural Harmony',
-  'Property Acquisition Ease',
-] as const;
+export const allCriteria: CriteriaType[] = [
+'Security & Crime Rates',
+'Cost of Living',
+'Climate & Weather Conditions',
+'Health Services & Quality',
+'Accommodation Options & Cost',
+'Transportation & Infrastructure',
+'Visa Ease & Immigration',
+'Education Quality',
+'Job Opportunities',
+'Internet Infrastructure',
+'Language Barrier',
+'Cultural Richness',
+'Food Culture',
+'Local Hospitality',
+'Nightlife & Entertainment',
+'Natural Beauties',
+'Environmental Factors',
+'Tax Policies',
+'Religious & Cultural Harmony',
+'Property Acquisition Ease',
+];
 
-export type CriteriaType = typeof initialCriteria[number] | typeof additionalCriteria[number];
+

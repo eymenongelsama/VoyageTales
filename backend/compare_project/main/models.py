@@ -15,14 +15,25 @@ class Country(models.Model):
     match_percentage = models.DecimalField(
         max_digits=5, 
         decimal_places=2, 
-        default=0.0  # Varsayılan değeri burada belirtiyoruz
+        default=0.0
     )
     overall_score = models.FloatField(default=0.0)  # Genel puan (1-5 arasında)
     image_url = models.ImageField(
         upload_to="countries/",
         default="defaults/default_world_image.jpg",
-        max_length=2048, blank=True, null=True# Varsayılan görsel yolu
+        max_length=2048, blank=True, null=True  # Varsayılan görsel yolu
     )
+    # **Yeni Eklenen Alanlar**
+    capital = models.CharField(max_length=255, blank=True, null=True)  # Başkent
+    population = models.CharField(max_length=20, default='0') 
+    currency = models.CharField(max_length=255, blank=True, null=True)  # Para Birimi
+    language = models.CharField(max_length=255, blank=True, null=True)  # Resmi Dil
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    long_description = models.TextField(null=True, blank=True)  # Uzun açıklama
+    last_updated = models.DateTimeField(auto_now=True)  # Son güncelleme tarihi
+    flag = models.CharField(max_length=10, null=True, blank=True, db_collation='utf8mb4_unicode_ci')
+
 
     def __str__(self):
         return self.name
@@ -43,3 +54,4 @@ class CountryFeature(models.Model):
 
     def __str__(self):
         return f"{self.country.name} - {self.feature}"
+    

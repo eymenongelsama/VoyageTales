@@ -1,10 +1,10 @@
 # urls.py
 from django.urls import path
-from main.views import GetMatchingCountries, CalculateMatch
+from main.views import GetMatchingCountries, CalculateMatch, CountryDetailView
 
 urlpatterns = [
     path('api/matching-countries/', GetMatchingCountries.as_view(), name='country-list'),
     path('api/calculate-match/', CalculateMatch.as_view(), name='calculate-match'),
-    # Diğer URL'ler...
+    path('api/country/<int:pk>/', CountryDetailView.as_view(), name='country-detail'),
 ]
 

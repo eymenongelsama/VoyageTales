@@ -9,7 +9,15 @@ db.sqlite3
 media/
 static/
 db_backup.json
+backup.json
 management
+data
+backup_latest.json
+backup.sql
+backup_filtered.json
+package-lock.json
+package.json
+
 
 #react native
 node_modules

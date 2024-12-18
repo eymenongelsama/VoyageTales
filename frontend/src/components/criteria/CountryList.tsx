@@ -1,9 +1,13 @@
-// src/components/criteria/CountryList.tsx
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CountriesResponse, Country } from '../../types/country';
+import { useNavigate } from 'react-router-dom';
 import CountryCard from './CountryCard';
+
+// API URL ve Token'ı çevre değişkenlerinden alıyoruz
+const BASE_URL = import.meta.env.VITE_API_BASE_URL; // Temel URL
+const API_URL = `${BASE_URL}/api/matching-countries/`; // Spesifik uç nokta
+const TOKEN = import.meta.env.VITE_API_TOKEN;
 
 const CountryList: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
@@ -12,50 +16,65 @@ const CountryList: React.FC = () => {
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [previousPage, setPreviousPage] = useState<string | null>(null);
 
-  const fetchCountries = async (url: string) => {
+  const navigate = useNavigate();
+
+  const fetchCountries = async (url: string, retries = 3) => {
+    setLoading(true);
+    setError(null);
+
     try {
-      setLoading(true);
-      const response = await axios.get<CountriesResponse>(url);
+      const response = await axios.get<CountriesResponse>(url, {
+        headers: {
+          Authorization: `Token ${TOKEN}`,
+        },
+      });
       setCountries(response.data.results);
       setNextPage(response.data.next);
       setPreviousPage(response.data.previous);
-      setLoading(false);
     } catch (err) {
-      setError('Veriler çekilirken bir hata oluştu.');
+      if (retries > 0) {
+        // Retry mekanizması
+        fetchCountries(url, retries - 1);
+      } else {
+        setError('Veriler çekilirken bir hata oluştu. Lütfen tekrar deneyin.');
+      }
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCountries('http://127.0.0.1:8000/api/matching-countries/');
+    fetchCountries(API_URL);
   }, []);
 
   const handleNext = () => {
-    if (nextPage) {
-      fetchCountries(nextPage);
-    }
+    if (nextPage) fetchCountries(nextPage);
   };
 
   const handlePrevious = () => {
-    if (previousPage) {
-      fetchCountries(previousPage);
-    }
+    if (previousPage) fetchCountries(previousPage);
   };
 
-  if (loading) {
-    return <p>Yükleniyor...</p>;
-  }
+  const handleCardClick = (id: number) => {
+    navigate(`/country/${id}`);
+  };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  if (loading) return <p>Yükleniyor...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!countries.length) return <p className="text-gray-500">Listelenecek ülke bulunamadı.</p>;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8"> {/* Maksimum genişlik ve ortalama */}
-      <h1 className="text-2xl font-bold mb-6">Ülkeler</h1> {/* Başlık ekledik */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6"> {/* Mobilde 1 sütun, küçük ekranlarda 2 sütun */}
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Ülkeler</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {countries.map((country) => (
-          <CountryCard key={country.id} country={country} />
+          <div
+            key={country.id}
+            onClick={() => handleCardClick(country.id)}
+            className="cursor-pointer"
+          >
+            <CountryCard country={country} />
+          </div>
         ))}
       </div>
       <div className="flex justify-center mt-6 space-x-4">

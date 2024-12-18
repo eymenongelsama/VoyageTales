@@ -20,16 +20,25 @@ class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
-        fields = ['id',
-                  'name',
-                  'description',
-                  'match_percentage',
-                  'image_url',
-                  'criteria',
-                  'overall_score',
-                  'features'
-                  ]
-
+        fields = [
+            'id',
+            'name',
+            'criteria',
+            'match_percentage',
+            'overall_score',
+            'image_url',
+            'latitude',
+            'longitude',
+            'capital',
+            'population',
+            'currency',
+            'language',
+            'long_description',
+            'last_updated',
+            'flag',
+            'features',
+        ]
+        
     def get_criteria(self, obj):
         criteria_scores = CountryCriteria.objects.filter(country=obj)
         return CountryCriteriaSerializer(criteria_scores, many=True).data
