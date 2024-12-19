@@ -30,7 +30,7 @@ const Navbar: React.FC<NavigationProps> = ({ currentStep, onNavigate }) => {
                 currentStep === 'criteria' ? 'text-[#1e90ff] border-b-2 border-[#1e90ff]' : ''
               }`}
             >
-              Groups
+              Countries
             </button>
             <button 
               onClick={() => onNavigate('auth')}

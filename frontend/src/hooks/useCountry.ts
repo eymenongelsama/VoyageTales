@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-const TOKEN = import.meta.env.VITE_API_TOKEN; // Token'i çevre değişkeninden alın
 
 interface Criteria {
   id: number;
@@ -14,7 +13,7 @@ interface Country {
   criteria: Criteria[];
   match_percentage: number;
   overall_score: number;
-  image_url: string;
+  image: string;
   latitude: number;
   longitude: number;
   capital: string;
@@ -35,11 +34,7 @@ const useCountry = (id: number) => {
   useEffect(() => {
     const fetchCountry = async () => {
       try {
-        const response = await axios.get<Country>(`http://127.0.0.1:8000/api/country/${id}/`, {
-          headers: {
-            Authorization: `Token ${TOKEN}`,
-          },
-        });
+        const response = await axios.get<Country>(`http://127.0.0.1:8000/api/country/${id}/`);
         setCountry(response.data);
       } catch (err) {
         setError(err);
@@ -47,7 +42,7 @@ const useCountry = (id: number) => {
         setLoading(false);
       }
     };
-  
+
     fetchCountry();
   }, [id]);
 
@@ -55,5 +50,3 @@ const useCountry = (id: number) => {
 };
 
 export default useCountry;
-
-

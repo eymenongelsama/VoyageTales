@@ -19,7 +19,7 @@ export interface Country {
   name: string;
   description: string;
   match_percentage: string;
-  image_url: string;
+  image: string;
   features: string[]; // features bir dizi string
   overall_score: number;
 }

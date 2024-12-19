@@ -4,10 +4,9 @@ import { CountriesResponse, Country } from '../../types/country';
 import { useNavigate } from 'react-router-dom';
 import CountryCard from './CountryCard';
 
-// API URL ve Token'ı çevre değişkenlerinden alıyoruz
-const BASE_URL = import.meta.env.VITE_API_BASE_URL; // Temel URL
-const API_URL = `${BASE_URL}/api/matching-countries/`; // Spesifik uç nokta
-const TOKEN = import.meta.env.VITE_API_TOKEN;
+// API URL'yi çevre değişkenlerinden alıyoruz
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = `${BASE_URL}/api/matching-countries/`;
 
 const CountryList: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
@@ -24,16 +23,13 @@ const CountryList: React.FC = () => {
 
     try {
       const response = await axios.get<CountriesResponse>(url, {
-        headers: {
-          Authorization: `Token ${TOKEN}`,
-        },
+        withCredentials: true, // Çerezleri gönder
       });
       setCountries(response.data.results);
       setNextPage(response.data.next);
       setPreviousPage(response.data.previous);
     } catch (err) {
       if (retries > 0) {
-        // Retry mekanizması
         fetchCountries(url, retries - 1);
       } else {
         setError('Veriler çekilirken bir hata oluştu. Lütfen tekrar deneyin.');

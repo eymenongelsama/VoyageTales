@@ -26,7 +26,7 @@ class CountrySerializer(serializers.ModelSerializer):
             'criteria',
             'match_percentage',
             'overall_score',
-            'image_url',
+            'image',
             'latitude',
             'longitude',
             'capital',
@@ -59,7 +59,13 @@ class CountryListSerializer(serializers.ModelSerializer):
             'name', 
             'description', 
             'match_percentage', 
-            'image_url', 
+            'image', 
             'features',
             'overall_score'
         ]
+        
+    def get_image_url(self, obj):
+        request = self.context.get('request')  # Tam URL oluşturmak için isteği alın
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url)
+        return request.build_absolute_uri('/media/defaults/default_world_image.jpg')

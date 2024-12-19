@@ -23,6 +23,8 @@ django-allauth==65.3.0
 django-cors-headers==3.8.0
 django-extensions==3.2.3
 django-filter==24.3
+django-ratelimit==4.1.0
+django-redis==5.4.0
 django-rest-framework==0.1.0
 django-restframework==0.0.1
 django-silk==5.3.1
@@ -79,6 +81,7 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 PyYAML==6.0.2
 pyzmq==26.2.0
+redis==5.2.1
 regex==2024.11.6
 requests==2.32.3
 requests-toolbelt==1.0.0

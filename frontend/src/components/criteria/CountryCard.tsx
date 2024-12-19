@@ -1,5 +1,3 @@
-// src/components/criteria/CountryCard.tsx
-
 import React from 'react';
 import { Globe2 } from 'lucide-react';
 import { Country } from '../../types/country';
@@ -9,25 +7,33 @@ interface Props {
 }
 
 const CountryCard: React.FC<Props> = ({ country }) => {
-  const defaultImage = "http://127.0.0.1:8000/media/defaults/default_world_image.jpg";
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:scale-[1.02] h-full">
-      <div className="relative h-64"> {/* Görsel yüksekliği artırıldı */}
+      {/* Görsel Bölgesi */}
+      <div className="relative h-64">
         <img
-          src={country.image_url || defaultImage}
+        src={
+          country.image 
+            ? `http://127.0.0.1:8000${country.image}`
+            : "http://127.0.0.1:8000/media/defaults/default_world_image.jpg"
+        }
           alt={country.name}
           className="w-full h-full object-cover"
+          loading="lazy" // Performans için lazy loading eklendi
         />
+        {/* Eşleşme Yüzdesi */}
         <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center space-x-1">
-          <Globe2 className="h-5 w-5 text-[#1e90ff]" /> {/* İkon boyutu artırıldı */}
-          <span className="text-sm font-semibold">{country.match_percentage}% Match</span> {/* Font boyutu artırıldı */}
+          <Globe2 className="h-5 w-5 text-[#1e90ff]" />
+          <span className="text-sm font-semibold">{country.match_percentage}% Match</span>
         </div>
       </div>
-      <div className="p-6"> {/* Padding artırıldı */}
-        <h3 className="text-2xl font-bold text-gray-900">{country.name}</h3> {/* Font boyutu artırıldı */}
-        <p className="text-base text-gray-600 mb-4">{country.description}</p> {/* Font boyutu ve margin artırıldı */}
-        <div className="flex flex-wrap gap-2"> {/* Gap artırıldı */}
+
+      {/* Bilgi Bölgesi */}
+      <div className="p-6">
+        <h3 className="text-2xl font-bold text-gray-900">{country.name}</h3>
+        <p className="text-base text-gray-600 mb-4">{country.description}</p>
+        <div className="flex flex-wrap gap-2">
           {country.features && country.features.length > 0 ? (
             country.features.map((feature, index) => (
               <span

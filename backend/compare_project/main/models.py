@@ -18,10 +18,11 @@ class Country(models.Model):
         default=0.0
     )
     overall_score = models.FloatField(default=0.0)  # Genel puan (1-5 arasında)
-    image_url = models.ImageField(
-        upload_to="countries/",
-        default="defaults/default_world_image.jpg",
-        max_length=2048, blank=True, null=True  # Varsayılan görsel yolu
+    image = models.ImageField(
+        upload_to='countries/',  # Yüklenen dosyaların kaydedileceği klasör
+        default='defaults/default_world_image.jpg',  # Varsayılan görsel
+        blank=True,
+        null=True
     )
     # **Yeni Eklenen Alanlar**
     capital = models.CharField(max_length=255, blank=True, null=True)  # Başkent

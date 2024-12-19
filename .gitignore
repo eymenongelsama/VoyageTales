@@ -17,6 +17,8 @@ backup.sql
 backup_filtered.json
 package-lock.json
 package.json
+.vite
+deps
 
 
 #react native

@@ -48,7 +48,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({ coordinates }) => {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${country.image_url || '/defaults/default_world_image.jpg'})`,
+            backgroundImage: `url(${country.image || '/defaults/default_world_image.jpg'})`,
             filter: 'brightness(0.7)',
           }}
         />
